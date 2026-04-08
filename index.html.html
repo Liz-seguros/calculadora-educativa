@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Educativa</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#090e18;--surface:#0f1825;--card:#141e2e;--border:rgba(255,255,255,0.07);--border-bright:rgba(255,255,255,0.15);--accent:#00d68f;--accent-dim:rgba(0,214,143,0.12);--accent-glow:rgba(0,214,143,0.25);--red:#ff4d6d;--red-dim:rgba(255,77,109,0.12);--amber:#ffb830;--amber-dim:rgba(255,184,48,0.12);--blue:#4f9eff;--blue-dim:rgba(79,158,255,0.12);--text:#f0f4ff;--text-muted:rgba(240,244,255,0.5);--text-dim:rgba(240,244,255,0.25);--radius:16px;--radius-sm:10px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;padding:24px 16px 60px;overflow-x:hidden;}
+body::before{content:'';position:fixed;top:-200px;left:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,214,143,0.05) 0%,transparent 70%);pointer-events:none;}
+.container{max-width:520px;margin:0 auto;position:relative;z-index:1;}
+.header{text-align:center;margin-bottom:28px;animation:fadeUp 0.6s ease both;}
+.header-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(0,214,143,0.2);padding:5px 14px;border-radius:99px;margin-bottom:14px;}
+.header-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+h1{font-family:'Syne',sans-serif;font-size:clamp(22px,5vw,30px);font-weight:800;line-height:1.2;margin-bottom:10px;}
+h1 em{font-style:normal;color:var(--accent);}
+.header p{font-size:14px;color:var(--text-muted);line-height:1.6;max-width:360px;margin:0 auto;}
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:12px;animation:fadeUp 0.6s 0.1s ease both;}
+.form-card label{display:block;font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;}
+.edad-display{display:flex;align-items:baseline;gap:6px;margin-bottom:12px;}
+.edad-num{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--accent);line-height:1;}
+.edad-suffix{font-size:16px;color:var(--text-muted);font-weight:300;}
+.edad-context{font-size:13px;color:var(--text-muted);margin-bottom:12px;min-height:20px;}
+input[type="range"]{-webkit-appearance:none;width:100%;height:4px;background:var(--border);border-radius:99px;outline:none;cursor:pointer;margin-bottom:8px;}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);box-shadow:0 0 12px var(--accent-glow);cursor:pointer;}
+.range-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);}
+.uni-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.uni-btn{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;cursor:pointer;transition:all 0.2s;text-align:left;}
+.uni-btn:hover{border-color:var(--border-bright);}
+.uni-btn.active{border-color:var(--accent);background:var(--accent-dim);}
+.uni-btn .uni-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:2px;}
+.uni-btn .uni-price{font-size:11px;color:var(--text-muted);}
+.uni-btn.active .uni-name{color:var(--accent);}
+.calc-btn{width:100%;padding:15px;background:var(--accent);color:#000;border:none;border-radius:var(--radius-sm);font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;margin-top:16px;}
+.calc-btn:active{transform:scale(0.98);}
+.calc-btn .btn-sub{display:block;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;opacity:0.7;margin-top:3px;}
+.loading{display:none;text-align:center;padding:40px;}
+.loading.show{display:block;animation:fadeUp 0.3s ease both;}
+.loading-dots{display:inline-flex;gap:6px;margin-bottom:14px;}
+.loading-dots span{width:8px;height:8px;background:var(--accent);border-radius:50%;animation:bounce 1.2s infinite ease-in-out;}
+.loading-dots span:nth-child(2){animation-delay:0.2s;}
+.loading-dots span:nth-child(3){animation-delay:0.4s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:0.4}40%{transform:translateY(-8px);opacity:1}}
+.loading p{font-size:13px;color:var(--text-muted);}
+.result-section{display:none;}
+.result-section.show{display:block;animation:fadeUp 0.5s ease both;}
+.ancla-card{background:linear-gradient(135deg,#0a1a2e,#091422);border:1px solid rgba(79,158,255,0.2);border-radius:var(--radius);padding:20px 22px;margin-bottom:14px;text-align:center;}
+.ancla-title{font-size:11px;color:var(--blue);letter-spacing:0.06em;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
+.ancla-txt{font-size:14px;color:var(--text-muted);line-height:1.6;}
+.ancla-txt strong{color:#fff;}
+.niveles-titulo{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+.nivel-card{border-radius:var(--radius);padding:20px;margin-bottom:10px;}
+.nivel-ideal{background:linear-gradient(135deg,#0a2018,#0a1a10);border:1.5px solid rgba(0,214,143,0.35);}
+.nivel-intermedio{background:linear-gradient(135deg,#1a1800,#121000);border:1px solid rgba(255,184,48,0.25);}
+.nivel-arranque{background:linear-gradient(135deg,#0d1520,#080f1a);border:1px solid rgba(79,158,255,0.2);}
+.nivel-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;margin-bottom:12px;}
+.badge-ideal{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,214,143,0.25);}
+.badge-intermedio{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,184,48,0.25);}
+.badge-arranque{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(79,158,255,0.25);}
+.nivel-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.nivel-nombre{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.nivel-monto-wrap{text-align:right;}
+.nivel-monto{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;line-height:1;}
+.monto-ideal{color:var(--accent);}
+.monto-intermedio{color:var(--amber);}
+.monto-arranque{color:var(--blue);}
+.nivel-periodo{font-size:11px;color:var(--text-dim);margin-top:2px;}
+.nivel-desc{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:10px;}
+.nivel-barra-wrap{margin-bottom:8px;}
+.nivel-barra-label{display:flex;justify-content:space-between;font-size:10px;color:var(--text-dim);margin-bottom:4px;}
+.nivel-barra-bg{height:6px;background:rgba(255,255,255,0.05);border-radius:99px;overflow:hidden;}
+.nivel-barra-fill{height:6px;border-radius:99px;transition:width 1.2s ease;}
+.fill-ideal{background:var(--accent);}
+.fill-intermedio{background:var(--amber);}
+.fill-arranque{background:var(--blue);}
+.nivel-equivalencia{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted);background:rgba(255,255,255,0.03);border-radius:8px;padding:8px 10px;margin-top:8px;}
+.nivel-equivalencia strong{color:#fff;}
+.nivel-cobertura{font-size:12px;color:var(--text-muted);margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05);}
+.cob-ideal{color:var(--accent);font-weight:600;}
+.cob-intermedio{color:var(--amber);font-weight:600;}
+.cob-arranque{color:var(--blue);font-weight:600;}
+.ia-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px;}
+.ia-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.ia-badge{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);background:var(--blue-dim);border:1px solid rgba(79,158,255,0.2);padding:3px 10px;border-radius:99px;}
+.ia-text{font-size:14px;color:var(--text);line-height:1.7;}
+.ia-text strong{color:var(--accent);font-weight:500;}
+.cta-final{background:linear-gradient(135deg,#0a1a0e,#091422);border:1px solid rgba(0,214,143,0.2);border-radius:var(--radius);padding:24px;text-align:center;margin-bottom:12px;}
+.cta-final h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;}
+.cta-final p{font-size:13px;color:var(--text-muted);margin-bottom:18px;line-height:1.6;}
+.cta-wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#000;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;padding:13px 24px;border-radius:var(--radius-sm);text-decoration:none;transition:all 0.2s;cursor:pointer;border:none;}
+.cta-wa:hover{filter:brightness(1.1);}
+.reset-btn{width:100%;padding:12px;background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;margin-top:8px;}
+.reset-btn:hover{border-color:var(--border-bright);color:var(--text);}
+.disclaimer{font-size:10px;color:var(--text-dim);text-align:center;line-height:1.5;margin-top:20px;}
+.error-card{display:none;background:var(--red-dim);border:1px solid rgba(255,77,109,0.25);border-radius:var(--radius-sm);padding:14px;font-size:13px;color:#ff8fab;margin-top:12px;}
+.error-card.show{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="header-tag">Calculadora educativa</div>
+  <h1>No tienes que llegar al <em>monto ideal</em> hoy. Solo tienes que <em>empezar.</em></h1>
+  <p>Te mostramos 3 niveles de ahorro según la edad de tu hijo — desde lo ideal hasta lo que puedes hacer hoy mismo.</p>
+</div>
+
+<div id="formSection">
+  <div class="form-card">
+    <label>Edad de tu hijo</label>
+    <div class="edad-display">
+      <span class="edad-num" id="edadNum">5</span>
+      <span class="edad-suffix">años</span>
+    </div>
+    <div class="edad-context" id="edadContext">Le faltan ~13 años para entrar a la universidad</div>
+    <input type="range" min="0" max="15" value="5" id="edadSlider" oninput="updateEdad(this.value)">
+    <div class="range-labels"><span>Recién nacido</span><span>15 años</span></div>
+  </div>
+
+  <div class="form-card">
+    <label>¿A qué universidad apunta?</label>
+    <div class="uni-grid">
+      <button class="uni-btn" data-costo="1200000" onclick="selectUni(this,'Ibero / Anáhuac')">
+        <span class="uni-name">Ibero / Anáhuac</span>
+        <span class="uni-price">~$1.1M – $1.4M carrera</span>
+      </button>
+      <button class="uni-btn active" data-costo="550000" onclick="selectUni(this,'La Salle / UVM')">
+        <span class="uni-name">La Salle / UVM</span>
+        <span class="uni-price">~$500k – $600k carrera</span>
+      </button>
+      <button class="uni-btn" data-costo="400000" onclick="selectUni(this,'Unitec / similar')">
+        <span class="uni-name">Unitec / similar</span>
+        <span class="uni-price">~$350k – $450k carrera</span>
+      </button>
+      <button class="uni-btn" data-costo="700000" onclick="selectUni(this,'universidad por definir')">
+        <span class="uni-name">No lo sé aún</span>
+        <span class="uni-price">Usamos promedio general</span>
+      </button>
+    </div>
+  </div>
+
+  <button class="calc-btn" onclick="calcular()">
+    Ver mis 3 opciones de ahorro
+    <span class="btn-sub">Sin datos personales · resultado inmediato</span>
+  </button>
+  <div class="error-card" id="errorCard">Hubo un problema. Intenta de nuevo en un momento.</div>
+</div>
+
+<div class="loading" id="loadingSection">
+  <div class="loading-dots"><span></span><span></span><span></span></div>
+  <p id="loadingMsg">Calculando tus 3 niveles de ahorro...</p>
+</div>
+
+<div class="result-section" id="resultSection">
+
+  <div class="ancla-card">
+    <div class="ancla-title">Lo más importante</div>
+    <div class="ancla-txt">Empezar con poco es <strong>infinitamente mejor</strong> que no empezar. El tiempo vale más que el monto — y siempre puedes subir después.</div>
+  </div>
+
+  <div class="niveles-titulo">Elige tu nivel de entrada</div>
+
+  <div class="nivel-card nivel-ideal">
+    <span class="nivel-badge badge-ideal">Ideal — cobertura total</span>
+    <div class="nivel-header">
+      <div class="nivel-nombre">Plan completo</div>
+      <div class="nivel-monto-wrap">
+        <div class="nivel-monto monto-ideal" id="montoIdeal">—</div>
+        <div class="nivel-periodo">al mes</div>
+      </div>
+    </div>
+    <div class="nivel-barra-wrap">
+      <div class="nivel-barra-label"><span>Cobertura de la carrera</span><span>100%</span></div>
+      <div class="nivel-barra-bg"><div class="nivel-barra-fill fill-ideal" id="barraIdeal" style="width:0%"></div></div>
+    </div>
+    <div class="nivel-desc" id="descIdeal">Cubre el 100% del costo estimado con inflación incluida.</div>
+    <div class="nivel-equivalencia"><strong id="eqIdeal">—</strong><span> al día — menos que un café y un almuerzo combinados</span></div>
+    <div class="nivel-cobertura">Llegarías con <span class="cob-ideal" id="metaIdeal">—</span> acumulados al entrar a la universidad</div>
+  </div>
+
+  <div class="nivel-card nivel-intermedio">
+    <span class="nivel-badge badge-intermedio">Intermedio — buen avance</span>
+    <div class="nivel-header">
+      <div class="nivel-nombre">Plan parcial</div>
+      <div class="nivel-monto-wrap">
+        <div class="nivel-monto monto-intermedio" id="montoIntermedio">—</div>
+        <div class="nivel-periodo">al mes</div>
+      </div>
+    </div>
+    <div class="nivel-barra-wrap">
+      <div class="nivel-barra-label"><span>Cobertura de la carrera</span><span>60%</span></div>
+      <div class="nivel-barra-bg"><div class="nivel-barra-fill fill-intermedio" id="barraIntermedio" style="width:0%"></div></div>
+    </div>
+    <div class="nivel-desc" id="descIntermedio">Cubre más de la mitad. El resto se complementa con beca, trabajo o ahorro adicional.</div>
+    <div class="nivel-equivalencia"><strong id="eqIntermedio">—</strong><span> al día — el costo de una comida diaria</span></div>
+    <div class="nivel-cobertura">Llegarías con <span class="cob-intermedio" id="metaIntermedio">—</span> acumulados — más de la mitad cubierta</div>
+  </div>
+
+  <div class="nivel-card nivel-arranque">
+    <span class="nivel-badge badge-arranque">Arranque — lo que importa es empezar</span>
+    <div class="nivel-header">
+      <div class="nivel-nombre">Plan mínimo</div>
+      <div class="nivel-monto-wrap">
+        <div class="nivel-monto monto-arranque" id="montoArranque">—</div>
+        <div class="nivel-periodo">al mes</div>
+      </div>
+    </div>
+    <div class="nivel-barra-wrap">
+      <div class="nivel-barra-label"><span>Cobertura de la carrera</span><span>30%</span></div>
+      <div class="nivel-barra-bg"><div class="nivel-barra-fill fill-arranque" id="barraArranque" style="width:0%"></div></div>
+    </div>
+    <div class="nivel-desc" id="descArranque">Un tercio cubierto hoy. El plan queda activo y puedes subir el monto cuando tu situación lo permita.</div>
+    <div class="nivel-equivalencia"><strong id="eqArranque">—</strong><span> al día — menos que tu plan de datos del celular</span></div>
+    <div class="nivel-cobertura">Llegarías con <span class="cob-arranque" id="metaArranque">—</span> acumulados — y siempre puedes ajustar al alza</div>
+  </div>
+
+  <div class="ia-card">
+    <div class="ia-header"><span class="ia-badge">Análisis para tu caso</span></div>
+    <div class="ia-text" id="iaText">Generando análisis...</div>
+  </div>
+
+  <div class="cta-final">
+    <h3>¿Con cuál nivel te identificas?</h3>
+    <p>Escríbeme y en 10 minutos te explico exactamente cómo funciona el plan para tu caso — sin compromiso.</p>
+    <button class="cta-wa" onclick="abrirWA()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M11.5 2C6.254 2 2 6.254 2 11.5c0 1.863.521 3.601 1.427 5.082L2 22l5.571-1.403A9.46 9.46 0 0011.5 21C16.746 21 21 16.746 21 11.5S16.746 2 11.5 2z"/></svg>
+      Quiero hablar sobre mi caso
+    </button>
+  </div>
+
+  <button class="reset-btn" onclick="reset()">← Calcular para otra edad o universidad</button>
+
+  <div class="disclaimer">
+    Estimaciones basadas en costos reales 2025-2026 e inflación educativa histórica (INEGI).<br>
+    No constituye oferta de producto financiero. Los montos varían según el plan específico.
+  </div>
+</div>
+</div>
+
+<script>
+let edadActual=5, costoActual=550000, uniNombre='La Salle / UVM';
+
+function fmt(n){return '$'+Math.round(n).toLocaleString('es-MX');}
+function fmtDay(n){return '$'+Math.round(n).toLocaleString('es-MX');}
+
+function updateEdad(val){
+  edadActual=parseInt(val);
+  document.getElementById('edadNum').textContent=val;
+  const a=18-parseInt(val);
+  const ctx=document.getElementById('edadContext');
+  if(a<=0) ctx.textContent='Ya está en edad universitaria';
+  else if(a===1) ctx.textContent='Le falta 1 año — actúa hoy mismo';
+  else ctx.textContent=`Le faltan ~${a} años para entrar a la universidad`;
+}
+
+function selectUni(btn,nombre){
+  document.querySelectorAll('.uni-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  costoActual=parseInt(btn.dataset.costo);
+  uniNombre=nombre;
+}
+
+function calcMensual(cf,meses,rend){
+  const r=rend/12;
+  if(meses<=0) return cf;
+  return cf*r/(Math.pow(1+r,meses)-1);
+}
+
+async function calcular(){
+  const anios=Math.max(1,18-edadActual);
+  const meses=anios*12;
+  const cf=costoActual*Math.pow(1.044,anios);
+  const ideal=calcMensual(cf,meses,0.072);
+  const intermedio=calcMensual(cf*0.60,meses,0.072);
+  const arranque=calcMensual(cf*0.30,meses,0.072);
+  const acumI=ideal*meses*1.3;
+  const acumM=intermedio*meses*1.3;
+  const acumA=arranque*meses*1.3;
+
+  document.getElementById('formSection').style.display='none';
+  document.getElementById('loadingSection').classList.add('show');
+
+  const msgs=['Calculando tus 3 niveles...','Ajustando por inflación educativa...','Preparando tu análisis...'];
+  let mi=0;
+  const iv=setInterval(()=>{mi=(mi+1)%msgs.length;document.getElementById('loadingMsg').textContent=msgs[mi];},1100);
+
+  try{
+    const prompt=`Eres asesor de seguros educativos en México. Escribe un párrafo de máximo 65 palabras en español, tono cálido y cercano (no vendedor), que:
+1. Valide que no siempre se puede empezar con el monto ideal
+2. Refuerce que arrancar con poco (${fmt(arranque)}/mes) ya marca la diferencia
+3. Mencione que el plan puede crecer
+4. Termine con una pregunta simple que invite a platicar
+
+Datos del caso: hijo de ${edadActual} años, universidad: ${uniNombre}, monto ideal: ${fmt(ideal)}/mes, monto arranque: ${fmt(arranque)}/mes, años disponibles: ${anios}. Solo párrafo corrido, sin listas.`;
+
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const texto=data.content?.[0]?.text||'Lo más importante es que hoy estás pensando en esto. Empezar con lo que puedes, aunque sea el nivel mínimo, ya te pone en ventaja frente a quienes esperan el momento perfecto. ¿Con cuál de los 3 niveles te sientes más cómodo para arrancar?';
+
+    clearInterval(iv);
+    document.getElementById('loadingSection').classList.remove('show');
+
+    document.getElementById('montoIdeal').textContent=fmt(ideal)+'/mes';
+    document.getElementById('montoIntermedio').textContent=fmt(intermedio)+'/mes';
+    document.getElementById('montoArranque').textContent=fmt(arranque)+'/mes';
+
+    document.getElementById('eqIdeal').textContent=fmtDay(ideal/30)+' al día';
+    document.getElementById('eqIntermedio').textContent=fmtDay(intermedio/30)+' al día';
+    document.getElementById('eqArranque').textContent=fmtDay(arranque/30)+' al día';
+
+    document.getElementById('metaIdeal').textContent=fmt(acumI);
+    document.getElementById('metaIntermedio').textContent=fmt(acumM);
+    document.getElementById('metaArranque').textContent=fmt(acumA);
+
+    document.getElementById('descIdeal').textContent=`Cubre el 100% de ${uniNombre} en ${anios} años, con inflación incluida. La opción más tranquila.`;
+    document.getElementById('descIntermedio').textContent=`Cubre el 60% de la carrera. El resto puede cubrirse con beca, trabajo o un ajuste futuro al plan.`;
+    document.getElementById('descArranque').textContent=`Un tercio cubierto desde hoy. Lo importante: el plan queda activo y puedes subir el monto cuando puedas.`;
+
+    setTimeout(()=>{
+      document.getElementById('barraIdeal').style.width='100%';
+      document.getElementById('barraIntermedio').style.width='60%';
+      document.getElementById('barraArranque').style.width='30%';
+    },300);
+
+    document.getElementById('iaText').innerHTML=texto.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+    document.getElementById('resultSection').classList.add('show');
+
+  }catch(e){
+    clearInterval(iv);
+    document.getElementById('loadingSection').classList.remove('show');
+    document.getElementById('formSection').style.display='block';
+    document.getElementById('errorCard').classList.add('show');
+  }
+}
+
+function reset(){
+  document.getElementById('resultSection').classList.remove('show');
+  document.getElementById('formSection').style.display='block';
+  document.getElementById('errorCard').classList.remove('show');
+  ['barraIdeal','barraIntermedio','barraArranque'].forEach(id=>document.getElementById(id).style.width='0%');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function abrirWA(){
+  const anios=Math.max(1,18-edadActual);
+  const cf=costoActual*Math.pow(1.044,anios);
+  const arranque=calcMensual(cf*0.30,anios*12,0.072);
+  const txt=encodeURIComponent(`Hola, usé la calculadora educativa. Tengo un hijo de ${edadActual} años y me interesa saber más sobre el plan de arranque (${fmt(arranque)}/mes). ¿Me puedes explicar cómo funciona?`);
+  window.open(`https://wa.me/?text=${txt}`,'_blank');
+}
+
+updateEdad(5);
+</script>
+</body>
+</html>
