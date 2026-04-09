@@ -213,6 +213,26 @@ input[type=range]::-webkit-slider-thumb{
   cursor:pointer;transition:border-color .2s,color .2s;margin-top:8px;
 }
 .rb:hover{border-color:var(--brt);color:var(--text);}
+
+/* PROTECCION */
+.prot{border-radius:16px;padding:22px;margin-bottom:12px;background:linear-gradient(135deg,#1a0a0e,#120008);border:1.5px solid rgba(255,77,109,.25);}
+.prot-tit{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:#ff4d6d;text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px;}
+.prot-h{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:12px;letter-spacing:-.01em;}
+.prot-h em{font-style:normal;color:#ff4d6d;}
+.prot-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.prot-col{border-radius:11px;padding:14px 13px;}
+.pc-banco{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);}
+.pc-seguro{background:rgba(0,214,143,.08);border:1px solid rgba(0,214,143,.25);}
+.prot-col-tit{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.tit-banco{color:rgba(255,255,255,.4);}
+.tit-seguro{color:var(--accent);}
+.prot-item{display:flex;align-items:flex-start;gap:7px;margin-bottom:7px;font-size:12px;line-height:1.45;color:var(--tm);}
+.prot-item:last-child{margin-bottom:0;}
+.dot-mal{width:6px;height:6px;border-radius:50%;background:#ff4d6d;flex-shrink:0;margin-top:4px;}
+.dot-bien{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:4px;}
+.prot-frase{background:rgba(0,214,143,.07);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:11px 14px;font-size:13px;color:var(--tm);line-height:1.65;}
+.prot-frase b{color:#fff;font-weight:500;}
+
 .di{font-size:10px;color:var(--td);text-align:center;line-height:1.55;margin-top:20px;}
 </style>
 </head>
@@ -330,6 +350,32 @@ input[type=range]::-webkit-slider-thumb{
         <div class="pc-val" id="p10">—</div>
         <div class="pc-desc">Mayor plazo, menor esfuerzo mensual</div>
       </div>
+    </div>
+  </div>
+
+
+  <!-- PROTECCIÓN -->
+  <div class="prot">
+    <div class="prot-tit">La diferencia que nadie explica</div>
+    <div class="prot-h">¿Qué pasa con los estudios de tu hijo si <em>algo te pasa a ti?</em></div>
+    <div class="prot-grid">
+      <div class="prot-col pc-banco">
+        <div class="prot-col-tit tit-banco">Ahorro en banco</div>
+        <div class="prot-item"><div class="dot-mal"></div><span>Si faltas, el ahorro para automáticamente</span></div>
+        <div class="prot-item"><div class="dot-mal"></div><span>Depende 100% de que tú sigas aportando</span></div>
+        <div class="prot-item"><div class="dot-mal"></div><span>La familia queda sin plan ni protección</span></div>
+        <div class="prot-item"><div class="dot-mal"></div><span>El dinero acumulado puede gastarse en emergencias</span></div>
+      </div>
+      <div class="prot-col pc-seguro">
+        <div class="prot-col-tit tit-seguro">Seguro educativo</div>
+        <div class="prot-item"><div class="dot-bien"></div><span>Si faltas, la aseguradora sigue aportando</span></div>
+        <div class="prot-item"><div class="dot-bien"></div><span>El plan continúa solo, sin que nadie pague</span></div>
+        <div class="prot-item"><div class="dot-bien"></div><span>Tu hijo llega a la universidad pase lo que pase</span></div>
+        <div class="prot-item"><div class="dot-bien"></div><span>El dinero está protegido y destinado a educación</span></div>
+      </div>
+    </div>
+    <div class="prot-frase">
+      Un seguro educativo no es solo una alcancía. Es la garantía de que <b>la educación de tu hijo no depende de que tú sigas aquí.</b>
     </div>
   </div>
 
