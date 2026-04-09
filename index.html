@@ -4,91 +4,229 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora Educativa</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZLE8F2HELL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ZLE8F2HELL');
+</script>
 <style>
-:root{--bg:#090e18;--card:#141e2e;--surface:#0f1825;--border:rgba(255,255,255,0.07);--accent:#00d68f;--accent-dim:rgba(0,214,143,0.12);--amber:#ffb830;--amber-dim:rgba(255,184,48,0.12);--blue:#4f9eff;--blue-dim:rgba(79,158,255,0.12);--text:#f0f4ff;--tm:rgba(240,244,255,0.5);--td:rgba(240,244,255,0.25);}
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap');
+:root{
+  --bg:#090e18;--card:#141e2e;--surface:#0f1825;
+  --border:rgba(255,255,255,0.07);--brt:rgba(255,255,255,0.15);
+  --accent:#00d68f;--adim:rgba(0,214,143,0.12);--aglow:rgba(0,214,143,0.25);
+  --amber:#ffb830;--adm:rgba(255,184,48,0.12);
+  --blue:#4f9eff;--bdm:rgba(79,158,255,0.12);
+  --text:#f0f4ff;--tm:rgba(240,244,255,0.55);--td:rgba(240,244,255,0.28);
+}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;padding:24px 16px 60px;}
-.w{max-width:520px;margin:0 auto;}
-.hdr{text-align:center;margin-bottom:28px;}
-.htag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(0,214,143,.2);padding:5px 14px;border-radius:99px;margin-bottom:14px;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:16px;line-height:1.5;
+  padding:28px 16px 70px;
+}
+.w{max-width:500px;margin:0 auto;}
+
+/* HEADER */
+.hdr{text-align:center;margin-bottom:32px;}
+.htag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);background:var(--adim);
+  border:1px solid rgba(0,214,143,.22);padding:5px 16px;border-radius:99px;margin-bottom:16px;
+}
 .htag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;}
-h1{font-family:'Syne',sans-serif;font-size:clamp(22px,5vw,30px);font-weight:800;line-height:1.2;margin-bottom:10px;}
+h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(24px,5.5vw,32px);font-weight:800;
+  line-height:1.18;margin-bottom:12px;letter-spacing:-.01em;
+}
 h1 em{font-style:normal;color:var(--accent);}
-.hdr p{font-size:14px;color:var(--tm);line-height:1.6;max-width:360px;margin:0 auto;}
-.fc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:12px;}
-.fc label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--tm);margin-bottom:12px;}
-.ed{display:flex;align-items:baseline;gap:6px;margin-bottom:12px;}
-.en{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--accent);line-height:1;}
-.es{font-size:16px;color:var(--tm);}
-.ec{font-size:13px;color:var(--tm);margin-bottom:12px;}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:var(--border);border-radius:99px;outline:none;cursor:pointer;margin-bottom:8px;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid var(--bg);cursor:pointer;}
+.hdr p{font-size:15px;color:var(--tm);line-height:1.65;max-width:380px;margin:0 auto;}
+
+/* CARDS */
+.fc{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:24px;margin-bottom:12px;
+}
+.fc label{
+  display:block;font-size:11px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:var(--tm);margin-bottom:14px;
+}
+
+/* SLIDER */
+.ed{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;}
+.en{
+  font-family:'Syne',sans-serif;font-size:52px;font-weight:800;
+  color:var(--accent);line-height:1;letter-spacing:-.02em;
+}
+.es{font-size:18px;color:var(--tm);font-weight:400;}
+.ec{font-size:13px;color:var(--tm);margin-bottom:14px;min-height:20px;}
+input[type=range]{
+  -webkit-appearance:none;width:100%;height:5px;
+  background:rgba(255,255,255,.1);border-radius:99px;
+  outline:none;cursor:pointer;margin-bottom:8px;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:24px;height:24px;border-radius:50%;
+  background:var(--accent);border:3px solid var(--bg);
+  box-shadow:0 0 14px var(--aglow);cursor:pointer;
+}
 .rl{display:flex;justify-content:space-between;font-size:11px;color:var(--td);}
-.ug{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.ub{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;cursor:pointer;text-align:left;transition:border-color .2s;}
-.ub.active{border-color:var(--accent);background:var(--accent-dim);}
-.un{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);display:block;margin-bottom:2px;}
+
+/* UNIVERSIDAD */
+.ug{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.ub{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:11px;padding:11px 13px;cursor:pointer;
+  transition:border-color .2s,background .2s;text-align:left;
+}
+.ub:hover{border-color:var(--brt);}
+.ub.active{border-color:var(--accent);background:var(--adim);}
+.un{
+  font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+  color:var(--text);display:block;margin-bottom:3px;letter-spacing:-.01em;
+}
 .up{font-size:11px;color:var(--tm);}
 .ub.active .un{color:var(--accent);}
-.cb{width:100%;padding:15px;background:var(--accent);color:#000;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px;}
-.cb span{display:block;font-family:'DM Sans',sans-serif;font-size:11px;opacity:.7;margin-top:3px;}
+
+/* BOTON CALC */
+.cb{
+  width:100%;padding:16px;background:var(--accent);color:#000;
+  border:none;border-radius:11px;
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:800;
+  cursor:pointer;transition:filter .2s,transform .1s;
+  margin-top:16px;letter-spacing:-.01em;
+}
+.cb:hover{filter:brightness(1.07);}
+.cb:active{transform:scale(.98);}
+.cb span{display:block;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;opacity:.65;margin-top:4px;}
+
+/* RESULTADO */
 .res{display:none;}
-.res.show{display:block;}
-.anc{background:linear-gradient(135deg,#0a1a2e,#091422);border:1px solid rgba(79,158,255,.2);border-radius:16px;padding:20px;margin-bottom:14px;text-align:center;}
-.at{font-size:11px;color:var(--blue);letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
-.ab{font-size:14px;color:var(--tm);line-height:1.6;}
-.ab b{color:#fff;}
-.nt{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
-.nc{border-radius:16px;padding:20px;margin-bottom:10px;}
-.ni{background:linear-gradient(135deg,#0a2018,#0a1a10);border:1.5px solid rgba(0,214,143,.35);}
-.nm{background:linear-gradient(135deg,#1a1800,#121000);border:1px solid rgba(255,184,48,.25);}
-.na{background:linear-gradient(135deg,#0d1520,#080f1a);border:1px solid rgba(79,158,255,.2);}
-.nb{display:inline-flex;align-items:center;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:99px;margin-bottom:12px;}
-.bi{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(0,214,143,.25);}
-.bm{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(255,184,48,.25);}
-.ba{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(79,158,255,.25);}
-.nh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
-.nn{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;}
-.nv{text-align:right;}
-.mo{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;line-height:1;}
+.res.show{display:block;animation:fu .45s ease both;}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ANCLA */
+.anc{
+  background:linear-gradient(135deg,#0a1a2e,#091422);
+  border:1px solid rgba(79,158,255,.2);
+  border-radius:16px;padding:20px 22px;margin-bottom:14px;text-align:center;
+}
+.at{font-size:11px;color:var(--blue);letter-spacing:.07em;text-transform:uppercase;font-weight:600;margin-bottom:8px;}
+.ab{font-size:14px;color:var(--tm);line-height:1.65;}
+.ab b{color:#fff;font-weight:500;}
+
+.ntit{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:700;
+  color:var(--td);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;
+}
+
+/* NIVELES */
+.nc{border-radius:16px;padding:20px 20px 16px;margin-bottom:10px;}
+.ni{background:linear-gradient(135deg,#0a2018,#0a1a10);border:1.5px solid rgba(0,214,143,.32);}
+.nm{background:linear-gradient(135deg,#1a1800,#121000);border:1px solid rgba(255,184,48,.28);}
+.na{background:linear-gradient(135deg,#0d1520,#080f1a);border:1px solid rgba(79,158,255,.22);}
+
+.nb{
+  display:inline-flex;align-items:center;
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 10px;border-radius:99px;margin-bottom:12px;
+}
+.bi{background:var(--adim);color:var(--accent);border:1px solid rgba(0,214,143,.28);}
+.bm{background:var(--adm);color:var(--amber);border:1px solid rgba(255,184,48,.28);}
+.ba{background:var(--bdm);color:var(--blue);border:1px solid rgba(79,158,255,.28);}
+
+.nh{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:11px;gap:12px;}
+.nn{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff;letter-spacing:-.01em;}
+.nv{text-align:right;flex-shrink:0;}
+.mo{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;line-height:1;letter-spacing:-.02em;}
 .mi{color:var(--accent);}
 .mm{color:var(--amber);}
 .ma{color:var(--blue);}
-.np{font-size:11px;color:var(--td);margin-top:2px;}
-.bw{margin-bottom:8px;}
-.bl{display:flex;justify-content:space-between;font-size:10px;color:var(--td);margin-bottom:4px;}
-.bb{height:6px;background:rgba(255,255,255,.05);border-radius:99px;overflow:hidden;}
-.bf{height:6px;border-radius:99px;transition:width 1.2s ease;}
+.np{font-size:11px;color:var(--td);margin-top:3px;}
+
+.bw{margin-bottom:10px;}
+.bl{display:flex;justify-content:space-between;font-size:10px;color:var(--td);margin-bottom:5px;}
+.bb{height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;}
+.bf{height:6px;border-radius:99px;transition:width 1.3s ease;}
 .fi{background:var(--accent);}
 .fm{background:var(--amber);}
 .fa{background:var(--blue);}
-.nd{font-size:13px;color:var(--tm);line-height:1.6;margin-bottom:10px;}
-.eq{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tm);background:rgba(255,255,255,.03);border-radius:8px;padding:8px 10px;margin-top:8px;}
-.eq b{color:#fff;}
-.nco{font-size:12px;color:var(--tm);margin-top:6px;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);}
-.ci{color:var(--accent);font-weight:600;}
-.cm{color:var(--amber);font-weight:600;}
-.ca{color:var(--blue);font-weight:600;}
+
+.nd{font-size:13px;color:var(--tm);line-height:1.65;margin-bottom:10px;}
+.eq{
+  display:flex;align-items:center;gap:7px;
+  font-size:12px;color:var(--tm);
+  background:rgba(255,255,255,.04);border-radius:8px;padding:8px 11px;
+}
+.eq b{color:#fff;font-weight:500;}
+
+/* PLANES CORTOS */
+.pc{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;padding:20px 22px;margin-bottom:12px;
+}
+.pc-tit{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em;}
+.pc-sub{font-size:13px;color:var(--tm);line-height:1.65;margin-bottom:14px;}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.pc-card{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:13px;}
+.pc-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--td);margin-bottom:5px;}
+.pc-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--accent);letter-spacing:-.01em;}
+.pc-desc{font-size:11px;color:var(--tm);margin-top:4px;line-height:1.4;}
+
+/* ANÁLISIS */
 .iac{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px;}
-.iab{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:var(--blue-dim);border:1px solid rgba(79,158,255,.2);padding:3px 10px;border-radius:99px;display:inline-block;margin-bottom:12px;}
-.iat{font-size:14px;color:var(--text);line-height:1.7;}
-.cta{background:linear-gradient(135deg,#0a1a0e,#091422);border:1px solid rgba(0,214,143,.2);border-radius:16px;padding:24px;text-align:center;margin-bottom:12px;}
-.cta h3{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:#fff;margin-bottom:8px;}
-.cta p{font-size:13px;color:var(--tm);margin-bottom:18px;line-height:1.6;}
-.wa{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#000;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;padding:13px 24px;border-radius:10px;border:none;cursor:pointer;}
-.rb{width:100%;padding:12px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--tm);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;margin-top:8px;}
-.di{font-size:10px;color:var(--td);text-align:center;line-height:1.5;margin-top:20px;}
+.iab{
+  font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--blue);background:var(--bdm);border:1px solid rgba(79,158,255,.22);
+  padding:3px 10px;border-radius:99px;display:inline-block;margin-bottom:12px;
+}
+.iat{font-size:14px;color:var(--text);line-height:1.75;}
+
+/* CTA */
+.cta{
+  background:linear-gradient(135deg,#0a1a0e,#091422);
+  border:1px solid rgba(0,214,143,.2);
+  border-radius:16px;padding:24px;text-align:center;margin-bottom:12px;
+}
+.cta h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:8px;letter-spacing:-.01em;}
+.cta p{font-size:13px;color:var(--tm);margin-bottom:20px;line-height:1.65;}
+.wa{
+  display:inline-flex;align-items:center;gap:9px;
+  background:#25d366;color:#000;
+  font-family:'Syne',sans-serif;font-size:14px;font-weight:800;
+  padding:14px 26px;border-radius:11px;border:none;cursor:pointer;
+  transition:filter .2s,transform .1s;letter-spacing:-.01em;
+}
+.wa:hover{filter:brightness(1.08);}
+.wa:active{transform:scale(.98);}
+
+.rb{
+  width:100%;padding:13px;background:transparent;
+  border:1px solid var(--border);border-radius:11px;
+  color:var(--tm);font-family:'DM Sans',sans-serif;font-size:13px;
+  cursor:pointer;transition:border-color .2s,color .2s;margin-top:8px;
+}
+.rb:hover{border-color:var(--brt);color:var(--text);}
+.di{font-size:10px;color:var(--td);text-align:center;line-height:1.55;margin-top:20px;}
 </style>
 </head>
 <body>
 <div class="w">
+
+<!-- HEADER -->
 <div class="hdr">
   <div class="htag">Calculadora educativa</div>
   <h1>No tienes que llegar al <em>monto ideal</em> hoy. Solo tienes que <em>empezar.</em></h1>
   <p>3 niveles de ahorro según la edad de tu hijo — desde lo ideal hasta lo que puedes hacer hoy mismo.</p>
 </div>
 
+<!-- FORMULARIO -->
 <div id="fS">
   <div class="fc">
     <label>Edad de tu hijo</label>
@@ -97,128 +235,238 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;heigh
     <input type="range" min="0" max="15" value="5" step="1" oninput="uE(this.value)">
     <div class="rl"><span>Recién nacido</span><span>15 años</span></div>
   </div>
+
   <div class="fc">
     <label>¿A qué universidad apunta?</label>
     <div class="ug">
-      <button class="ub" data-c="1200000" onclick="sU(this,'Ibero / Anáhuac')"><span class="un">Ibero / Anáhuac</span><span class="up">~$1.1M – $1.4M carrera</span></button>
-      <button class="ub active" data-c="550000" onclick="sU(this,'La Salle / UVM')"><span class="un">La Salle / UVM</span><span class="up">~$500k – $600k carrera</span></button>
-      <button class="ub" data-c="400000" onclick="sU(this,'Unitec / similar')"><span class="un">Unitec / similar</span><span class="up">~$350k – $450k carrera</span></button>
-      <button class="ub" data-c="700000" onclick="sU(this,'universidad por definir')"><span class="un">No lo sé aún</span><span class="up">Usamos promedio general</span></button>
+      <button class="ub" data-c="1200000" onclick="sU(this,'Ibero / Anáhuac')">
+        <span class="un">Ibero / Anáhuac</span><span class="up">~$1.1M – $1.4M carrera</span>
+      </button>
+      <button class="ub active" data-c="550000" onclick="sU(this,'La Salle / UVM')">
+        <span class="un">La Salle / UVM</span><span class="up">~$500k – $600k carrera</span>
+      </button>
+      <button class="ub" data-c="400000" onclick="sU(this,'Unitec / similar')">
+        <span class="un">Unitec / similar</span><span class="up">~$350k – $450k carrera</span>
+      </button>
+      <button class="ub" data-c="700000" onclick="sU(this,'universidad por definir')">
+        <span class="un">No lo sé aún</span><span class="up">Usamos promedio general</span>
+      </button>
     </div>
   </div>
-  <button class="cb" onclick="calc()">Ver mis 3 opciones de ahorro<span>Sin datos personales · resultado inmediato</span></button>
+
+  <button class="cb" onclick="calc()">
+    Ver mis 3 opciones de ahorro
+    <span>Sin datos personales · resultado inmediato</span>
+  </button>
 </div>
 
+<!-- RESULTADOS -->
 <div class="res" id="rS">
-  <div class="anc"><div class="at">Lo más importante</div><div class="ab">Empezar con poco es <b>infinitamente mejor</b> que no empezar. El tiempo vale más que el monto.</div></div>
-  <div class="nt">Elige tu nivel de entrada</div>
 
+  <div class="anc">
+    <div class="at">Lo más importante</div>
+    <div class="ab">Empezar con poco es <b>infinitamente mejor</b> que no empezar. El tiempo vale más que el monto — y siempre puedes subir después.</div>
+  </div>
+
+  <div class="ntit">Elige tu nivel de entrada</div>
+
+  <!-- IDEAL -->
   <div class="nc ni">
     <span class="nb bi">Ideal — cobertura total</span>
-    <div class="nh"><div class="nn">Plan completo</div><div class="nv"><div class="mo mi" id="mI">—</div><div class="np">al mes</div></div></div>
-    <div class="bw"><div class="bl"><span>Cobertura</span><span>100%</span></div><div class="bb"><div class="bf fi" id="bI" style="width:0%"></div></div></div>
+    <div class="nh">
+      <div class="nn">Plan completo</div>
+      <div class="nv"><div class="mo mi" id="mI">—</div><div class="np">al mes</div></div>
+    </div>
+    <div class="bw">
+      <div class="bl"><span>Cobertura</span><span>100%</span></div>
+      <div class="bb"><div class="bf fi" id="bI" style="width:0%"></div></div>
+    </div>
     <div class="nd" id="dI">—</div>
-    <div class="eq"><b id="eI">—</b><span> al día — menos que un café y almuerzo</span></div>
-    <div class="nco">Acumulado estimado: <span class="ci" id="aI">—</span></div>
+    <div class="eq"><b id="eI">—</b><span>&nbsp;al día — menos que un café y almuerzo combinados</span></div>
   </div>
 
+  <!-- INTERMEDIO -->
   <div class="nc nm">
     <span class="nb bm">Intermedio — buen avance</span>
-    <div class="nh"><div class="nn">Plan parcial</div><div class="nv"><div class="mo mm" id="mM">—</div><div class="np">al mes</div></div></div>
-    <div class="bw"><div class="bl"><span>Cobertura</span><span>60%</span></div><div class="bb"><div class="bf fm" id="bM" style="width:0%"></div></div></div>
+    <div class="nh">
+      <div class="nn">Plan parcial</div>
+      <div class="nv"><div class="mo mm" id="mM">—</div><div class="np">al mes</div></div>
+    </div>
+    <div class="bw">
+      <div class="bl"><span>Cobertura</span><span>60%</span></div>
+      <div class="bb"><div class="bf fm" id="bM" style="width:0%"></div></div>
+    </div>
     <div class="nd" id="dM">—</div>
-    <div class="eq"><b id="eM">—</b><span> al día — el costo de una comida</span></div>
-    <div class="nco">Acumulado estimado: <span class="cm" id="aM">—</span></div>
+    <div class="eq"><b id="eM">—</b><span>&nbsp;al día — el costo de una comida diaria</span></div>
   </div>
 
+  <!-- ARRANQUE -->
   <div class="nc na">
     <span class="nb ba">Arranque — lo que importa es empezar</span>
-    <div class="nh"><div class="nn">Plan mínimo</div><div class="nv"><div class="mo ma" id="mA">—</div><div class="np">al mes</div></div></div>
-    <div class="bw"><div class="bl"><span>Cobertura</span><span>30%</span></div><div class="bb"><div class="bf fa" id="bA" style="width:0%"></div></div></div>
+    <div class="nh">
+      <div class="nn">Plan mínimo</div>
+      <div class="nv"><div class="mo ma" id="mA">—</div><div class="np">al mes</div></div>
+    </div>
+    <div class="bw">
+      <div class="bl"><span>Cobertura</span><span>30%</span></div>
+      <div class="bb"><div class="bf fa" id="bA" style="width:0%"></div></div>
+    </div>
     <div class="nd" id="dA">—</div>
-    <div class="eq"><b id="eA">—</b><span> al día — menos que tu plan de datos</span></div>
-    <div class="nco">Acumulado estimado: <span class="ca" id="aA">—</span></div>
+    <div class="eq"><b id="eA">—</b><span>&nbsp;al día — menos que tu plan de datos del celular</span></div>
   </div>
 
+  <!-- PLANES CORTOS -->
+  <div class="pc">
+    <div class="pc-tit">¿Sabías que también puedes empezar con un plan de 5 o 10 años?</div>
+    <div class="pc-sub">No tienes que comprometerte por todo el tiempo que falta. Puedes comenzar con un plan de ahorro de 5 o 10 años y renovar después. Lo importante es que el dinero empiece a crecer hoy.</div>
+    <div class="pc-grid">
+      <div class="pc-card">
+        <div class="pc-label">Plan 5 años</div>
+        <div class="pc-val" id="p5">—</div>
+        <div class="pc-desc">Ahorra por 5 años y evalúas cómo seguir</div>
+      </div>
+      <div class="pc-card">
+        <div class="pc-label">Plan 10 años</div>
+        <div class="pc-val" id="p10">—</div>
+        <div class="pc-desc">Mayor plazo, menor esfuerzo mensual</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANÁLISIS -->
   <div class="iac">
     <span class="iab">Análisis para tu caso</span>
     <div class="iat" id="iaT">—</div>
   </div>
 
+  <!-- CTA WA -->
   <div class="cta">
     <h3>¿Con cuál nivel te identificas?</h3>
-    <p>Escríbeme y en 10 minutos te explico exactamente cómo funciona — sin compromiso.</p>
+    <p>Escríbeme y en 10 minutos te explico exactamente cómo funciona el plan para tu caso — sin compromiso.</p>
     <button class="wa" onclick="aWA()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M11.5 2C6.254 2 2 6.254 2 11.5c0 1.863.521 3.601 1.427 5.082L2 22l5.571-1.403A9.46 9.46 0 0011.5 21C16.746 21 21 16.746 21 11.5S16.746 2 11.5 2z"/></svg>
-      Quiero hablar sobre mi caso
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/>
+        <path d="M11.5 2C6.254 2 2 6.254 2 11.5c0 1.863.521 3.601 1.427 5.082L2 22l5.571-1.403A9.46 9.46 0 0011.5 21C16.746 21 21 16.746 21 11.5S16.746 2 11.5 2z"/>
+      </svg>
+      Quiero más información
     </button>
   </div>
+
   <button class="rb" onclick="rst()">← Calcular para otra edad o universidad</button>
-  <div class="di">Estimaciones basadas en costos reales 2025-2026 e inflación educativa histórica (INEGI). No constituye oferta de producto financiero.</div>
+
+  <div class="di">
+    Estimaciones orientativas basadas en costos reales 2025-2026 e inflación educativa histórica (INEGI).<br>
+    Los montos pueden variar según el plan específico. No constituye oferta de producto financiero.
+  </div>
+
 </div>
 </div>
 
 <script>
-var edad=5,costo=550000,uni='La Salle / UVM';
-function fmt(n){return'$'+Math.round(n).toLocaleString('es-MX');}
+var edad=5, costo=550000, uni='La Salle / UVM';
+var WA='5523143034';
+
+function fmt(n){ return '$'+Math.round(n).toLocaleString('es-MX'); }
+
 function uE(v){
   edad=parseInt(v);
   document.getElementById('eN').textContent=v;
   var a=18-parseInt(v);
   var c=document.getElementById('eC');
-  if(a<=0)c.textContent='Ya está en edad universitaria';
-  else if(a===1)c.textContent='Le falta 1 año — actúa hoy mismo';
+  if(a<=0) c.textContent='Ya está en edad universitaria';
+  else if(a===1) c.textContent='Le falta 1 año — actúa hoy mismo';
   else c.textContent='Le faltan ~'+a+' años para entrar a la universidad';
 }
+
 function sU(btn,n){
-  document.querySelectorAll('.ub').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.ub').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
   costo=parseInt(btn.dataset.c);
   uni=n;
 }
-function cM(cf,m){
+
+function cM(cf,meses){
   var r=0.072/12;
-  if(m<=0)return cf;
-  return cf*r/(Math.pow(1+r,m)-1);
+  if(meses<=0) return cf;
+  return cf*r/(Math.pow(1+r,meses)-1);
 }
+
 function calc(){
   var anios=Math.max(1,18-edad);
   var m=anios*12;
   var cf=costo*Math.pow(1.044,anios);
-  var i=cM(cf,m);
-  var med=cM(cf*.6,m);
-  var arr=cM(cf*.3,m);
+
+  var ideal=cM(cf,m);
+  var inter=cM(cf*0.6,m);
+  var arr=cM(cf*0.3,m);
+
+  // Planes cortos: ahorro por 5 o 10 años sobre costo base sin proyectar toda la uni
+  var cf5=costo*Math.pow(1.044,Math.min(5,anios));
+  var cf10=costo*Math.pow(1.044,Math.min(10,anios));
+  var plan5=cM(cf5*0.4, Math.min(5,anios)*12);
+  var plan10=cM(cf10*0.5, Math.min(10,anios)*12);
+
+  gtag('event', 'calculo_completado', {
+    'edad_hijo': edad,
+    'universidad': uni
+  });
   document.getElementById('fS').style.display='none';
-  document.getElementById('mI').textContent=fmt(i)+'/mes';
-  document.getElementById('mM').textContent=fmt(med)+'/mes';
+
+  document.getElementById('mI').textContent=fmt(ideal)+'/mes';
+  document.getElementById('mM').textContent=fmt(inter)+'/mes';
   document.getElementById('mA').textContent=fmt(arr)+'/mes';
-  document.getElementById('eI').textContent=fmt(i/30)+' al día';
-  document.getElementById('eM').textContent=fmt(med/30)+' al día';
-  document.getElementById('eA').textContent=fmt(arr/30)+' al día';
-  document.getElementById('aI').textContent=fmt(i*m*1.3);
-  document.getElementById('aM').textContent=fmt(med*m*1.3);
-  document.getElementById('aA').textContent=fmt(arr*m*1.3);
+
+  document.getElementById('eI').textContent=fmt(Math.round(ideal/30))+' al día';
+  document.getElementById('eM').textContent=fmt(Math.round(inter/30))+' al día';
+  document.getElementById('eA').textContent=fmt(Math.round(arr/30))+' al día';
+
   document.getElementById('dI').textContent='Cubre el 100% de '+uni+' en '+anios+' años con inflación incluida. La opción más tranquila.';
-  document.getElementById('dM').textContent='Cubre el 60% de la carrera. El resto puede complementarse con beca, trabajo o un ajuste futuro.';
-  document.getElementById('dA').textContent='Un tercio cubierto desde hoy. El plan queda activo y puedes subir el monto cuando puedas.';
-  var txts=['Muchos papás piensan que tienen tiempo, pero la inflación educativa no espera. Con '+fmt(arr)+' al mes ya estás construyendo algo real. Lo importante no es el monto perfecto — es empezar ahora que tienes '+anios+' años a tu favor. ¿Con cuál nivel te sientes más cómodo?','Lo más valioso que tienes son los '+anios+' años que faltan. Cada mes que esperas sube el monto mensual necesario. Empezar con '+fmt(arr)+' hoy es mejor que esperar a tener '+fmt(i)+' disponibles mañana. ¿Cuál nivel se ajusta mejor a tu situación?','No conozco ningún papá que se arrepienta de haber empezado a ahorrar para la universidad de su hijo. Con el plan mínimo de '+fmt(arr)+' al mes ya le estás dando a tu hijo una ventaja real. ¿Hablamos de cómo funciona?'];
+  document.getElementById('dM').textContent='Cubre el 60% de la carrera. El resto puede complementarse con beca, trabajo del estudiante o un ajuste futuro.';
+  document.getElementById('dA').textContent='Un tercio cubierto desde hoy. El plan queda activo y puedes subir el monto cuando tu situación lo permita.';
+
+  document.getElementById('p5').textContent=fmt(plan5)+'/mes';
+  document.getElementById('p10').textContent=fmt(plan10)+'/mes';
+
+  var txts=[
+    'La mayoría de los papás con quienes hablo no empiezan con el plan ideal — empiezan con lo que pueden y van subiendo. Con '+fmt(arr)+' al mes ya tienes algo real funcionando para tu hijo. La diferencia entre quienes llegan y quienes no, no es el monto: es haberlo iniciado. ¿Con cuál nivel arrancamos?',
+    'Lo más valioso que tienes son los '+anios+' años que faltan. Cada mes que pasa sin un plan hace que el monto mensual necesario suba. No tienes que comprometerte con el monto ideal hoy — puedes empezar con '+fmt(arr)+' y ajustar cuando puedas. ¿Cuál nivel se ajusta mejor a tu situación?',
+    'No conozco ningún papá que se arrepienta de haber empezado. Sí conozco varios que se arrepienten de no haberlo hecho antes. Incluso el plan mínimo de '+fmt(arr)+' al mes ya le da a tu hijo una ventaja real. ¿Te explico cómo funciona exactamente en 10 minutos?'
+  ];
   document.getElementById('iaT').textContent=txts[Math.floor(Math.random()*txts.length)];
+
   document.getElementById('rS').classList.add('show');
-  setTimeout(function(){document.getElementById('bI').style.width='100%';document.getElementById('bM').style.width='60%';document.getElementById('bA').style.width='30%';},300);
+
+  setTimeout(function(){
+    document.getElementById('bI').style.width='100%';
+    document.getElementById('bM').style.width='60%';
+    document.getElementById('bA').style.width='30%';
+  },300);
 }
+
 function rst(){
   document.getElementById('rS').classList.remove('show');
   document.getElementById('fS').style.display='block';
-  ['bI','bM','bA'].forEach(function(id){document.getElementById(id).style.width='0%';});
+  ['bI','bM','bA'].forEach(function(id){ document.getElementById(id).style.width='0%'; });
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function aWA(){
   var anios=Math.max(1,18-edad);
   var cf=costo*Math.pow(1.044,anios);
-  var arr=cM(cf*.3,anios*12);
-  var txt=encodeURIComponent('Hola, usé la calculadora educativa. Tengo un hijo de '+edad+' años y me interesa saber más sobre el plan de ahorro ('+fmt(arr)+'/mes). ¿Me puedes explicar cómo funciona?');
-  window.open('https://wa.me/?text='+txt,'_blank');
+  var arr=cM(cf*0.3,anios*12);
+  var msg=encodeURIComponent(
+    'Hola Liz, usé tu calculadora educativa. Tengo un hijo de '+edad+
+    ' años y me interesa saber más sobre el plan de ahorro educativo ('+fmt(arr)+
+    '/mes para '+uni+'). ¿Me puedes explicar cómo funciona?'
+  );
+  gtag('event', 'click_whatsapp', {
+    'edad_hijo': edad,
+    'universidad': uni,
+    'monto_arranque': fmt(arr)
+  });
+  window.open('https://wa.me/'+WA+'?text='+msg,'_blank');
 }
+
 uE(5);
 </script>
 </body>
